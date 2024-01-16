@@ -1,33 +1,12 @@
-package com.example.demo.models;
+package com.example.demo.response;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class GetAllBookResponse {
 
-@Document
-public class Book {
-    @Id
-    private String bookId;
     private String name;
     private String description;
     private Double price;
     private Long createdAt;
     private Long updatedAt;
-
-    public Book(String name, String description, Double price, Long createdAt, Long updatedAt) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public String getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
 
     public String getName() {
         return name;
