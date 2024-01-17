@@ -1,10 +1,16 @@
 package com.example.demo.server.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Setter
+@Getter
 @Document
+@Builder
 public class Book {
 
     public static final String NAME = "name";
@@ -26,59 +32,11 @@ public class Book {
     @Field(UPDATED_AT)
     private Long updatedAt;
 
-    public Book(String name, String description, Double price, Long createdAt, Long updatedAt) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public String getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Long getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Long createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Long updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+//    public Book(String name, String description, Double price, Long createdAt, Long updatedAt) {
+//        this.name = name;
+//        this.description = description;
+//        this.price = price;
+//        this.createdAt = createdAt;
+//        this.updatedAt = updatedAt;
+//    }
 }

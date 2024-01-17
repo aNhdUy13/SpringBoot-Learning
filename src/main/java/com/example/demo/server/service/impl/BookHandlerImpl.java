@@ -3,21 +3,18 @@ package com.example.demo.server.service.impl;
 import com.example.demo.server.domain.Book;
 import com.example.demo.server.repository.BookRepository;
 import com.example.demo.server.response.GetAllBookResponse;
-import com.example.demo.server.response.ResponseCode;
 import com.example.demo.server.service.BookHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class BookHandlerImpl implements BookHandlerService {
 
     @Autowired
@@ -34,46 +31,41 @@ public class BookHandlerImpl implements BookHandlerService {
         Page<Book> pageResult = bookRepository.findAll(pageRequest);
 
         return pageResult.getContent().stream()
-                .map(book -> new GetAllBookResponse(
-                        book.getBookId(),
-                        book.getName(),
-                        book.getDescription(),
-                        book.getPrice(),
-                        book.getCreatedAt(),
-                        book.getUpdatedAt()
-                )).collect(Collectors.toList());
+                .map(this::castToResponse).collect(Collectors.toList());
     }
 
     @Override
-    public int addBook(Book addedBook) {
+    public List<GetAllBookResponse> getBookByName(String bookName) {
+        return bookRepository.searchRelatedBookByName(bookName).stream().map(this::castToResponse).toList();
+    }
+
+    private GetAllBookResponse castToResponse(Book book) {
+        return new GetAllBookResponse(
+                book.getBookId(),
+                book.getName(),
+                book.getDescription(),
+                book.getPrice(),
+                book.getCreatedAt(),
+                book.getUpdatedAt());
+    }
+
+    @Override
+    public void addBook(Book addedBook) {
         bookRepository.save(addedBook);
-        return ResponseCode.SUCCESS;
     }
 
     @Override
-    public int updateBook(Book updatedBook) {
+    public void updateBook(Book updatedBook) {
         bookRepository.save(updatedBook);
-        return ResponseCode.SUCCESS;
     }
 
     @Override
-    public int deleteBook(String bookId) {
-        Optional<Book> deletedBook = bookRepository.findById(bookId);
-        if (deletedBook.isEmpty()) {
-            return ResponseCode.WRONG_DATA_FORMAT;
-        }
+    public void deleteBook(String bookId) {
         bookRepository.deleteById(bookId);
-        return ResponseCode.SUCCESS;
     }
 
     @Override
-    public List<Book> getBookByName(String bookName) {
-        return bookRepository.searchRelatedBookByName(bookName);
-    }
-
-    @Override
-    public Book getBookById(String bookId) {
-        return bookRepository.findById(bookId)
-                .orElseThrow(() -> new NoSuchElementException("Book not found with id: " + bookId));
+    public Optional<Book> getBookById(String bookId) {
+        return bookRepository.findById(bookId);
     }
 }

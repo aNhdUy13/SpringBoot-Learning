@@ -5,16 +5,18 @@ import com.example.demo.server.domain.Book;
 import com.example.demo.server.response.GetAllBookResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookHandlerService {
     List<GetAllBookResponse> getAllBooks(int page, int size);
 
-    int addBook(Book addedBook);
-    int updateBook(Book updatedBook);
+    List<GetAllBookResponse> getBookByName(String bookName);
 
-    Book getBookById(String id);
+    void addBook(Book addedBook);
 
-    int deleteBook(String bookId);
+    void updateBook(Book updatedBook);
 
-    List<Book> getBookByName(String bookName);
+    Optional<Book> getBookById(String id);
+
+    void deleteBook(String bookId);
 }
