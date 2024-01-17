@@ -2,6 +2,7 @@ package com.example.demo.server.service.impl;
 
 import com.example.demo.server.domain.Book;
 import com.example.demo.server.repository.BookRepository;
+import com.example.demo.server.response.GetAllBookResponse;
 import com.example.demo.server.response.ResponseCode;
 import com.example.demo.server.service.BookHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookHandlerImpl implements BookHandlerService {
@@ -21,15 +24,26 @@ public class BookHandlerImpl implements BookHandlerService {
     private BookRepository bookRepository;
 
     @Override
-    public List<Book> getAllBooks(int page, int size) {
+    public List<GetAllBookResponse> getAllBooks(int page, int size) {
         PageRequest pageRequest = PageRequest.of(
                 page,
                 size,
                 Sort.by(Sort.Direction.DESC, Book.CREATED_AT)
         );
+
         Page<Book> pageResult = bookRepository.findAll(pageRequest);
-        return pageResult.getContent();
+
+        return pageResult.getContent().stream()
+                .map(book -> new GetAllBookResponse(
+                        book.getBookId(),
+                        book.getName(),
+                        book.getDescription(),
+                        book.getPrice(),
+                        book.getCreatedAt(),
+                        book.getUpdatedAt()
+                )).collect(Collectors.toList());
     }
+
     @Override
     public int addBook(Book addedBook) {
         bookRepository.save(addedBook);

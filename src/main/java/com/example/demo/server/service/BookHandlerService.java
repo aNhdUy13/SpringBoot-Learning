@@ -2,11 +2,12 @@ package com.example.demo.server.service;
 
 
 import com.example.demo.server.domain.Book;
+import com.example.demo.server.response.GetAllBookResponse;
 
 import java.util.List;
 
 public interface BookHandlerService {
-    List<Book> getAllBooks(int page, int size);
+    List<GetAllBookResponse> getAllBooks(int page, int size);
 
     int addBook(Book addedBook);
     int updateBook(Book updatedBook);
