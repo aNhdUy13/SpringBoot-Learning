@@ -1,15 +1,22 @@
 package com.example.demo.models;
 
+import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document
 public class Book {
+
+    public static final String NAME = "name";
+    public static final String CREATED_AT = "created_at";
     @Id
     private String bookId;
     private String name;
     private String description;
     private Double price;
+
+    @Field(CREATED_AT)
     private Long createdAt;
     private Long updatedAt;
 

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ApplicationException;
 import com.example.demo.models.Book;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.request.HandleBookRequest;
@@ -25,11 +26,7 @@ public class BookController {
 
     @GetMapping("/getAllBooks")
     public ResponseBody getAllBooks() {
-        try {
-            return new ResponseBody(bookRepository.findAll());
-        } catch (Exception e) {
-            return new ResponseBody(WRONG_DATA_FORMAT_RESPONSE);
-        }
+        return new ResponseBody(bookRepository.findAll());
     }
 
     @PostMapping(value = "/addBook", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -47,9 +44,8 @@ public class BookController {
 
             if (savedBook.getBookId() != null) {
                 return new ResponseBody(book);
-            } else {
-                return new ResponseBody(WRONG_DATA_FORMAT_RESPONSE);
             }
+            return new ResponseBody(WRONG_DATA_FORMAT_RESPONSE);
         } catch (Exception e) {
             return new ResponseBody(WRONG_DATA_FORMAT_RESPONSE);
         }
@@ -62,7 +58,7 @@ public class BookController {
     ) {
         try {
             Book updatedBook = bookRepository.findById(bookId)
-                    .orElseThrow(() -> new NoSuchElementException("Book not found with id: " + bookId));
+                    .orElseThrow(() -> new ApplicationException("Book not found with id: " + bookId));
             updatedBook.setName(handleBookRequest.getName());
             updatedBook.setDescription(handleBookRequest.getDescription());
             updatedBook.setPrice(handleBookRequest.getPrice());
@@ -87,9 +83,8 @@ public class BookController {
 
     @GetMapping(value = "/getBookByName")
     public ResponseBody getBooksByName(@RequestParam String bookName) {
-        List<Book> originalBookList = bookRepository.findBooksByName(bookName);
+        List<Book> originalBookList = bookRepository.searchBook(bookName);
         List<GetAllBookResponse> bookResponses = new ArrayList<>();
-
         return new ResponseBody(originalBookList);
     }
 }
