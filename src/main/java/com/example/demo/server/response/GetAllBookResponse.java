@@ -1,17 +1,12 @@
-package com.example.demo.request;
+package com.example.demo.server.response;
 
-public class HandleBookRequest {
+public class GetAllBookResponse {
 
-    private String bookId;
     private String name;
     private String description;
     private Double price;
     private Long createdAt;
     private Long updatedAt;
-
-    public String getBookId() {
-        return bookId;
-    }
 
     public String getName() {
         return name;

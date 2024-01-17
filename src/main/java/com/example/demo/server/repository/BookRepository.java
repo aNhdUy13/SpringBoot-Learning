@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.server.repository;
 
-import com.example.demo.models.Book;
+import com.example.demo.server.domain.Book;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +11,4 @@ import java.util.List;
 public interface BookRepository extends MongoRepository<Book, String>, BookCustomizationRepository {
 
     List<Book> findBooksByName(String name);
-
 }

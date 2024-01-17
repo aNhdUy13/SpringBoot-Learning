@@ -1,6 +1,6 @@
-package com.example.demo.repository;
+package com.example.demo.server.repository;
 
-import com.example.demo.models.Book;
+import com.example.demo.server.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,7 +15,7 @@ public class BookRepositoryImpl implements BookCustomizationRepository {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<Book> searchBook(String name) {
+    public List<Book> searchRelatedBookByName(String name) {
         Query query = new Query();
         query.addCriteria(Criteria.where(Book.NAME).regex(Pattern.compile(name)));
         return mongoTemplate.find(query, Book.class);
