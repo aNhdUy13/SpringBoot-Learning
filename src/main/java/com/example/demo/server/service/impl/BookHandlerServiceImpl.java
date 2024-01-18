@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class BookHandlerImpl implements BookHandlerService {
+public class BookHandlerServiceImpl implements BookHandlerService {
 
     @Autowired
     private BookRepository bookRepository;

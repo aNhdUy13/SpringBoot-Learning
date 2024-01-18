@@ -1,6 +1,7 @@
-package com.example.demo.server.repository;
+package com.example.demo.server.repository.impl;
 
 import com.example.demo.server.domain.Book;
+import com.example.demo.server.repository.BookCustomizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
